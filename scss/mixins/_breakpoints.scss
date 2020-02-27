@@ -8,6 +8,22 @@
 
 // Name of the next breakpoint, or null for the last breakpoint.
 //
+//    >> breakpoint-prev(sm)
+//    xs
+//    >> breakpoint-prev(sm, (xs: 0, sm: 576px, md: 768px, lg: 992px, xl: 1200px))
+//    xs
+//    >> breakpoint-prev(sm, $breakpoint-names: (xs sm md lg xl))
+//    xs
+@function breakpoint-prev($name, $breakpoints: $grid-breakpoints, $breakpoint-names: map-keys($breakpoints)) {
+  $n: index($breakpoint-names, $name);
+  @if not $n {
+    @error "breakpoint `#{$name}` not found in `#{$breakpoints}`";
+  }
+  @return if($n > 1, nth($breakpoint-names, $n - 1), null);
+}
+
+// Name of the next breakpoint, or null for the last breakpoint.
+//
 //    >> breakpoint-next(sm)
 //    md
 //    >> breakpoint-next(sm, (xs: 0, sm: 576px, md: 768px, lg: 992px, xl: 1200px))
